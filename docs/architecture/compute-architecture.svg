@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="760" viewBox="0 0 1280 760" role="img" aria-labelledby="title desc">
+  <title id="title">Elthebel Compute Architecture</title>
+  <desc id="desc">Compute module diagram showing ALB, listener, target group, launch template, IAM role, instance profile, Auto Scaling Group, and EC2 Nginx instances.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f7f8fb; }
+      .public { fill: #e9f8ef; stroke: #27ae60; stroke-width: 2; rx: 12; }
+      .private { fill: #f4efff; stroke: #7b61ff; stroke-width: 2; rx: 12; }
+      .box { fill: #ffffff; stroke: #44546a; stroke-width: 2; rx: 8; }
+      .lt { fill: #fff7e6; stroke: #f5a623; stroke-width: 2; rx: 8; }
+      .iam { fill: #fff2f0; stroke: #d64545; stroke-width: 2; rx: 8; }
+      .text { font-family: Arial, Helvetica, sans-serif; fill: #172033; }
+      .title { font-size: 28px; font-weight: 700; }
+      .label { font-size: 18px; font-weight: 700; }
+      .small { font-size: 14px; }
+      .tiny { font-size: 12px; fill: #516070; }
+      .line { stroke: #44546a; stroke-width: 3; fill: none; marker-end: url(#arrow); }
+      .dash { stroke: #d64545; stroke-width: 2.5; fill: none; stroke-dasharray: 7 7; marker-end: url(#arrow-red); }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#44546a"/></marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#d64545"/></marker>
+  </defs>
+  <rect class="bg" width="1280" height="760"/>
+  <text x="48" y="54" class="text title">Compute Module</text>
+  <text x="48" y="82" class="text small">Application runtime using ALB, target group health checks, EC2 Launch Template, and Auto Scaling.</text>
+
+  <rect x="80" y="140" width="470" height="430" class="public"/>
+  <text x="115" y="180" class="text label">Public Subnets</text>
+  <rect x="165" y="260" width="300" height="78" class="box"/>
+  <text x="315" y="293" text-anchor="middle" class="text label">Application Load Balancer</text>
+  <text x="315" y="318" text-anchor="middle" class="text tiny">Internet-facing, HTTP :80</text>
+  <rect x="205" y="405" width="220" height="62" class="box"/>
+  <text x="315" y="441" text-anchor="middle" class="text small">HTTP Listener</text>
+
+  <rect x="650" y="140" width="520" height="430" class="private"/>
+  <text x="685" y="180" class="text label">Private Subnets</text>
+  <rect x="790" y="235" width="245" height="66" class="box"/>
+  <text x="912" y="267" text-anchor="middle" class="text label">Target Group</text>
+  <text x="912" y="289" text-anchor="middle" class="text tiny">Health check: /health</text>
+  <rect x="790" y="350" width="245" height="72" class="box"/>
+  <text x="912" y="382" text-anchor="middle" class="text label">Auto Scaling Group</text>
+  <text x="912" y="407" text-anchor="middle" class="text tiny">min 2, desired 2, max 4</text>
+  <rect x="720" y="475" width="170" height="60" class="box"/>
+  <text x="805" y="507" text-anchor="middle" class="text small">EC2 + Nginx</text>
+  <rect x="940" y="475" width="170" height="60" class="box"/>
+  <text x="1025" y="507" text-anchor="middle" class="text small">EC2 + Nginx</text>
+
+  <rect x="180" y="640" width="235" height="62" class="lt"/>
+  <text x="297" y="671" text-anchor="middle" class="text label">Launch Template</text>
+  <text x="297" y="693" text-anchor="middle" class="text tiny">Ubuntu 24.04, gp3 encrypted, IMDSv2</text>
+
+  <rect x="520" y="640" width="235" height="62" class="iam"/>
+  <text x="637" y="671" text-anchor="middle" class="text label">IAM Role</text>
+  <text x="637" y="693" text-anchor="middle" class="text tiny">AmazonSSMManagedInstanceCore</text>
+
+  <rect x="860" y="640" width="235" height="62" class="lt"/>
+  <text x="977" y="671" text-anchor="middle" class="text label">Scaling Policy</text>
+  <text x="977" y="693" text-anchor="middle" class="text tiny">Target CPU: 50%</text>
+
+  <path d="M315 338 V405" class="line"/>
+  <path d="M425 436 H790 V268" class="line"/>
+  <path d="M912 301 V350" class="line"/>
+  <path d="M912 422 V455 H805 V475" class="line"/>
+  <path d="M912 455 H1025 V475" class="line"/>
+  <path d="M297 640 V386 H790" class="dash"/>
+  <path d="M637 640 V386 H790" class="dash"/>
+  <path d="M977 640 V422" class="dash"/>
+</svg>

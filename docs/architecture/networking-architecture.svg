@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="760" viewBox="0 0 1280 760" role="img" aria-labelledby="title desc">
+  <title id="title">Elthebel Networking Architecture</title>
+  <desc id="desc">Networking module diagram showing VPC, public subnets, private subnets, internet gateway, NAT gateway, route tables, and security groups.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f7f8fb; }
+      .vpc { fill: #eef7ff; stroke: #2f80ed; stroke-width: 2; rx: 14; }
+      .public { fill: #e9f8ef; stroke: #27ae60; stroke-width: 2; rx: 10; }
+      .private { fill: #f4efff; stroke: #7b61ff; stroke-width: 2; rx: 10; }
+      .box { fill: #ffffff; stroke: #44546a; stroke-width: 2; rx: 8; }
+      .sg { fill: #fff2f0; stroke: #d64545; stroke-width: 2; rx: 8; }
+      .text { font-family: Arial, Helvetica, sans-serif; fill: #172033; }
+      .title { font-size: 28px; font-weight: 700; }
+      .label { font-size: 18px; font-weight: 700; }
+      .small { font-size: 14px; }
+      .tiny { font-size: 12px; fill: #516070; }
+      .line { stroke: #44546a; stroke-width: 3; fill: none; marker-end: url(#arrow); }
+      .route { stroke: #2f80ed; stroke-width: 2.5; fill: none; stroke-dasharray: 7 7; marker-end: url(#arrow-blue); }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#44546a"/></marker>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#2f80ed"/></marker>
+  </defs>
+  <rect class="bg" width="1280" height="760"/>
+  <text x="48" y="54" class="text title">Networking Module</text>
+  <text x="48" y="82" class="text small">VPC networking for public ingress, private application hosting, and outbound private subnet access.</text>
+
+  <rect x="70" y="130" width="1040" height="500" class="vpc"/>
+  <text x="105" y="170" class="text label">VPC</text>
+  <text x="105" y="194" class="text tiny">CIDR from var.vpc_cidr</text>
+
+  <rect x="130" y="235" width="410" height="275" class="public"/>
+  <text x="160" y="270" class="text label">Public Subnets</text>
+  <text x="160" y="294" class="text tiny">Created with count from public_subnet_cidrs</text>
+  <rect x="175" y="335" width="145" height="62" class="box"/>
+  <text x="247" y="362" text-anchor="middle" class="text small">Public AZ 1</text>
+  <text x="247" y="383" text-anchor="middle" class="text tiny">10.0.1.0/24</text>
+  <rect x="350" y="335" width="145" height="62" class="box"/>
+  <text x="422" y="362" text-anchor="middle" class="text small">Public AZ 2</text>
+  <text x="422" y="383" text-anchor="middle" class="text tiny">10.0.2.0/24</text>
+  <rect x="260" y="425" width="145" height="52" class="box"/>
+  <text x="332" y="456" text-anchor="middle" class="text small">NAT Gateway</text>
+
+  <rect x="620" y="235" width="410" height="275" class="private"/>
+  <text x="650" y="270" class="text label">Private Subnets</text>
+  <text x="650" y="294" class="text tiny">Created with count from private_subnet_cidrs</text>
+  <rect x="665" y="335" width="145" height="62" class="box"/>
+  <text x="737" y="362" text-anchor="middle" class="text small">Private AZ 1</text>
+  <text x="737" y="383" text-anchor="middle" class="text tiny">10.0.3.0/24</text>
+  <rect x="840" y="335" width="145" height="62" class="box"/>
+  <text x="912" y="362" text-anchor="middle" class="text small">Private AZ 2</text>
+  <text x="912" y="383" text-anchor="middle" class="text tiny">10.0.4.0/24</text>
+
+  <rect x="70" y="665" width="190" height="52" class="box"/>
+  <text x="165" y="697" text-anchor="middle" class="text small">Internet Gateway</text>
+  <rect x="315" y="665" width="190" height="52" class="box"/>
+  <text x="410" y="697" text-anchor="middle" class="text small">Public Route Table</text>
+  <rect x="560" y="665" width="190" height="52" class="box"/>
+  <text x="655" y="697" text-anchor="middle" class="text small">Private Route Table</text>
+  <rect x="805" y="665" width="260" height="52" class="sg"/>
+  <text x="935" y="697" text-anchor="middle" class="text small">ALB, App, Database SGs</text>
+
+  <path d="M165 665 V610 H335 V510" class="route"/>
+  <path d="M410 665 V510" class="route"/>
+  <path d="M655 665 V535 H332 V477" class="route"/>
+  <path d="M540 372 H620" class="line"/>
+  <path d="M935 665 V560" class="line"/>
+
+  <text x="160" y="555" class="text tiny">Public default route: 0.0.0.0/0 -> Internet Gateway</text>
+  <text x="650" y="555" class="text tiny">Private default route: 0.0.0.0/0 -> NAT Gateway</text>
+</svg>

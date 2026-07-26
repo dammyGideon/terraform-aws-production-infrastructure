@@ -1,0 +1,54 @@
+# Why count?
+# Because we do not want to copy and paste subnet resources four times.
+# This:
+# count = length(var.public_subnet_cidrs)
+# means:
+# Create one public subnet for each CIDR in public_subnet_cidrs
+# Since you have:
+# ["10.0.1.0/24", "10.0.2.0/24"]
+# Terraform creates 2 public subnets.
+# Why count.index?
+# It selects the matching CIDR and AZ.
+# Example:
+# count.index = 0
+# CIDR = 10.0.1.0/24
+# AZ   = eu-west-1a
+# count.index = 1
+# CIDR = 10.0.2.0/24
+# AZ   = eu-west-1b
+# Now run:
+# terraform fmt -recursive
+# terraform validate
+# terraform plan
+# terraform state list (it is used to see get state list)
+
+// so we have covered 
+
+Phase 1
+✓ VPC
+✓ Public & Private Subnets
+✓ Internet Gateway
+✓ NAT Gateway
+✓ Route Tables
+✓ Security Groups
+✓ Multi-AZ
+✓ Terraform Modules
+
+Phase 2
+✓ Launch Template
+✓ IAM Role
+✓ Instance Profile
+✓ ALB
+✓ Listener
+✓ Target Group
+✓ Health Checks
+✓ Auto Scaling Group
+✓ Self-healing
+✓ Rolling Instance Refresh
+
+Phase 3 (Current)
+✓ CloudWatch Metrics
+✓ CloudWatch Dashboard
+✓ CloudWatch Alarm
+✓ SNS Topic
+✓ Email Subscription (pending confirmation)

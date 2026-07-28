@@ -52,6 +52,13 @@ resource "aws_iam_role_policy_attachment" "ssm" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
 }
 
+//this gives the Ec2 permission to send Telementry data to CloudWatch
+resource "aws_iam_role_policy_attachment" "cloudwatch" {
+  role       = aws_iam_role.ec2.name
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
+}
+
+
 resource "aws_iam_instance_profile" "ec2" {
   name = "${var.project_name}-${var.environment}-ec2-profile"
   role = aws_iam_role.ec2.name
@@ -75,26 +82,11 @@ resource "aws_launch_template" "app" {
     var.app_security_group_id
   ]
 
-  user_data = base64encode(<<-EOF
-#!/bin/bash
-set -eux
-
-apt-get update -y
-apt-get install -y nginx
-
-cat > /var/www/html/index.html <<HTML
-<h1>Elthebel API Server</h1>
-<p>Healthy from $(hostname)</p>
-HTML
-
-cat > /var/www/html/health <<HTML
-OK
-HTML
-
-systemctl enable nginx
-systemctl restart nginx
-EOF
-  )
+user_data = base64encode(templatefile("${path.module}/../../scripts/bootstrap.sh", {
+  install_nginx_script = file("${path.module}/../../scripts/install-nginx.sh")
+  install_cloudwatch_script = file("${path.module}/../../scripts/install-cloudwatch.sh")
+  cloudwatch_config = templatefile("${path.module}/../../scripts/amazon-cloudwatch-agent.json", {})
+}))
 
   metadata_options {
     http_tokens = "required"
